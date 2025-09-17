@@ -13,10 +13,10 @@ function load_arrets(filepath::String)
             row.nom_arret,
             row.quartier,
             row.zone,
-            parse(Float64, row.latitude), 
-            parse(Float64, row.longitude),
-            row.abribus,
-            row.eclairage,
+            row.latitude, 
+            row.longitude,
+            row.abribus == "Oui",
+            row.eclairage == "Oui",
             [parse(Int, l) for l in split(row.lignes_desservies, ",")]
         ))
     end
@@ -35,7 +35,7 @@ function load_lignes(filepath::String)
             row.nom_ligne,
             row.origine,
             row.destination,
-            parse(Float64, row.distance_km),
+            row.distance_km,
             row.duree_trajet_min,
             row.tarif_fcfa,
             row.frequence_min,
@@ -55,7 +55,7 @@ function load_frequentations(filepath::String)
         push!(frequences, Frequentation(
             row.id,
             DateTime(row.date),
-            Time(row.heure),
+            row.heure,
             row.ligne_id,
             row.arret_id,
             row.montees,
@@ -68,9 +68,9 @@ function load_frequentations(filepath::String)
     return frequences
 end
 
-# Charger les données
+# Chargement des données
 arrets = load_arrets("data/arrets.csv")
-lignes = load_lignes("data/lignes.csv")
+lignes = load_lignes("data/lignes_bus.csv")
 frequences = load_frequentations("data/frequentation.csv")
 
 println("Nombre d'arrêts importés: ", length(arrets))
