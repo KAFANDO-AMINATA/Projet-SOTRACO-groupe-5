@@ -14,18 +14,7 @@ const CAPACITE_BUS_STANDARD = 80       # capacité standard d’un bus
 # Optimisation des fréquences
 # ==============================
 
-function analyser_demande_par_heure(ligne_id::Int, frequentations::Vector{Frequentation})
-    """Analyse de la demande par heure"""
-    data_ligne = filter(f -> f.ligne_id == ligne_id, frequentations)
 
-    demande_par_heure = Dict{Int, Float64}()
-    for f in data_ligne
-        h = hour(f.heure)
-        demande_par_heure[h] = get(demande_par_heure, h, 0.0) + f.montees
-    end
-
-    return demande_par_heure
-end
 
 """
 Optimise une fréquence fixe pour toute la journée

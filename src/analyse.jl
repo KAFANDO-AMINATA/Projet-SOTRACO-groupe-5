@@ -30,6 +30,18 @@ function analyser_frequentation_par_ligne(frequentations::Vector{Frequentation})
     return resultats
 end
 
+function analyser_demande_par_heure(ligne_id::Int, frequentations::Vector{Frequentation})
+    """Analyse de la demande par heure"""
+    data_ligne = filter(f -> f.ligne_id == ligne_id, frequentations)
+
+    demande_par_heure = Dict{Int, Float64}()
+    for f in data_ligne
+        h = hour(f.heure)
+        demande_par_heure[h] = get(demande_par_heure, h, 0.0) + f.montees
+    end
+
+    return demande_par_heure
+end
 
 function identifier_heures_pointe(frequentations::Vector{Frequentation})
     """Identifie les heures de pointe du réseau SOTRACO"""
