@@ -1,6 +1,7 @@
 using CSV
 using DataFrames
 include("types.jl")
+# include("../rapports.jl")
 
 """
 Module de chargement des données SOTRACO 
@@ -71,6 +72,24 @@ function load_frequentations(filepath::String)
     end
 
     return frequences
+end
+
+function exporter_donnees_csv(donnees::Dict, nom_fichier::String)
+    """Exporte des données d'analyse en format CSV"""
+    try
+        # Créer le dossier s'il n'existe pas
+        mkpath(dirname(nom_fichier))
+        
+        open(nom_fichier, "w") do fichier
+            write(fichier, "ligne_id,frequentation_moyenne\n")
+            for (ligne_id, freq) in sort(collect(donnees))
+                write(fichier, "$ligne_id,$(round(freq, digits=2))\n")
+            end
+        end
+        println("Données exportées: $nom_fichier")
+    catch e
+        println("Erreur lors de l'export: $e")
+    end
 end
 
 # Chargement des données

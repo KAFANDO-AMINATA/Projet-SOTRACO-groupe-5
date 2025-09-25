@@ -232,23 +232,6 @@ function sauvegarder_rapport_txt(contenu::String, nom_fichier::String="")
     end
 end
 
-function exporter_donnees_csv(donnees::Dict, nom_fichier::String)
-    """Exporte des données d'analyse en format CSV"""
-    try
-        # Créer le dossier s'il n'existe pas
-        mkpath(dirname(nom_fichier))
-        
-        open(nom_fichier, "w") do fichier
-            write(fichier, "ligne_id,frequentation_moyenne\n")
-            for (ligne_id, freq) in sort(collect(donnees))
-                write(fichier, "$ligne_id,$(round(freq, digits=2))\n")
-            end
-        end
-        println("Données exportées: $nom_fichier")
-    catch e
-        println("Erreur lors de l'export: $e")
-    end
-end
 
 function generer_rapport_executif(ligne_stats::Dict{Int, Float64}, taux_occupation::Float64)
     """Génère un rapport exécutif condensé pour la direction"""
