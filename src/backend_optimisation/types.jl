@@ -1,6 +1,14 @@
+
 # Importation des librairies nécessaires
 using Dates 
 using Statistics
+
+"""
+Module de structuration des données SOTRACO 
+developpé par le Membre 1 -  Développeur Backend & Optimisation
+
+"""
+
 
 # Définition des structures
 
@@ -57,7 +65,7 @@ struct StatistiquesLigne
     total_passagers::Int
     taux_occupation_moyen::Float64
     heures_pointe::Vector{Time}
-    arrets_populaires::Dict{Int, Int}   # arret_id -> nombre_passagers
+    arrets_populaires::Dict{Int, Int}
 end
 
 """

@@ -3,6 +3,7 @@ using Dates
 # Imports du travail des deux membres
 include("backend_optimisation/types.jl")           # Membre 1 - Structures de données
 include("backend_optimisation/io_operations.jl")   # Membre 1 - Chargement des données  
+include("backend_optimisation/optimisation.jl")    # Membre 1 - Optimisation des fréquences
 include("analyse.jl")         # Membre 2 - Analyses de données
 include("visualisation.jl")   # Membre 2 - Visualisations
 include("rapports.jl")        # Membre 2 - Génération de rapports
@@ -40,35 +41,33 @@ function executer_analyse_frequentation(lignes, arrets, frequentations)
     readline()
 end
 
+
 function executer_optimisation_lignes(lignes, frequentations)
     """Execute l'optimisation des lignes"""
     println("\nOPTIMISATION DES LIGNES")
     println("-"^40)
     
-    # Utilise les fonctions d'analyse du Membre 2
-    ligne_stats = analyser_frequentation_par_ligne(frequentations)
-    
-    for (ligne_id, freq_moyenne) in ligne_stats
-        ligne = findfirst(l -> l.id == ligne_id, lignes)
-        if ligne !== nothing
-            freq_actuelle = lignes[ligne].frequence_min
-            
-            # Logique d'optimisation simple
-            if freq_moyenne < 50
-                nouvelle_freq = min(freq_actuelle + 5, 30)
-                println("Ligne $ligne_id: Réduire fréquence à $nouvelle_freq min")
-            elseif freq_moyenne > 200
-                nouvelle_freq = max(freq_actuelle - 3, 5)
-                println("Ligne $ligne_id: Augmenter fréquence à $nouvelle_freq min")
-            else
-                println("Ligne $ligne_id: Fréquence optimale ($freq_actuelle min)")
+    for ligne in lignes
+        # Optimisation fixe - Membre 1
+        freq_opt = optimiser_frequence_fixe(ligne, frequentations)
+        println("$(ligne.nom_ligne) → fréquence fixe optimisée : $freq_opt min")
+
+        # Optimisation variable - Membre 1
+        freq_var = optimiser_frequence_variable(ligne, frequentations)
+        if !isempty(freq_var)
+            println("   Fréquences variables par période :")
+            for (periode, freq) in freq_var
+                println("     - $periode : $freq min")
             end
         end
+
+        println()
     end
-    
+
     print("\nAppuyez sur Entrée pour continuer...")
     readline()
 end
+
 
 function executer_visualisation(arrets, frequentations)
     """Execute la visualisation du réseau"""

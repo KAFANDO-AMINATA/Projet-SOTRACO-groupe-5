@@ -2,6 +2,11 @@ using CSV
 using DataFrames
 include("types.jl")
 
+"""
+Module de chargement des données SOTRACO 
+developpé par le Membre 1 -  Développeur Backend & Optimisation
+
+"""
 function load_arrets(filepath::String)
     df = CSV.read(filepath, DataFrame)
 
@@ -73,9 +78,9 @@ arrets = load_arrets("data/arrets.csv")
 lignes = load_lignes("data/lignes_bus.csv")
 frequences = load_frequentations("data/frequentation.csv")
 
-println("Nombre d'arrêts importés: ", length(arrets))
-println("Nombre de lignes importées: ", length(lignes))
-println("Nombre de mesures de fréquentation: ", length(frequences))
+# println("Nombre d'arrêts importés: ", length(arrets))
+# println("Nombre de lignes importées: ", length(lignes))
+# println("Nombre de mesures de fréquentation: ", length(frequences))
 
 
 
