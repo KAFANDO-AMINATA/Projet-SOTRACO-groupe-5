@@ -92,25 +92,6 @@ function exporter_donnees_csv(donnees::Dict, nom_fichier::String)
     end
 end
 
-function sauvegarder_rapport_txt(contenu::String, nom_fichier::String="")
-    """Sauvegarde le rapport dans un fichier texte"""
-    if nom_fichier == ""
-        timestamp = Dates.format(now(), "yyyy-mm-dd_HH-MM")
-        nom_fichier = "resultats/rapport_sotraco_$timestamp.txt"
-    end
-    
-    try
-        # Créer le dossier s'il n'existe pas
-        mkpath(dirname(nom_fichier))
-        
-        open(nom_fichier, "w") do fichier
-            write(fichier, contenu)
-        end
-        println("Rapport sauvegardé: $nom_fichier")
-    catch e
-        println("Erreur lors de la sauvegarde: $e")
-    end
-end
 
 # Chargement des données
 arrets = load_arrets("data/arrets.csv")
